@@ -1,31 +1,3 @@
-"""
-Hand-tracking pan/tilt controller - PI control version
------------------------------------------------------------
-Continuous-rotation servos have no position feedback, so the camera itself
-closes the loop: each frame we measure the hand's angular offset from
-center (converted from normalized frame position using measured FOV),
-and run that error through a PI controller to compute a speed command.
-
-Plant model (derived from open-loop testing):
-    dTheta/dt = Kv * (u - STOP_VALUE)      i.e. G(s) = Kv / s
-
-Measured: Kv ~= 1 deg/sec per unit offset (from 20-offset, 1s pulse -> ~20 deg)
-
-Controller: C(s) = Kp + Ki/s
-Designed for closed-loop damping ratio ~0.8, natural frequency ~2 rad/s:
-    Kp = 2*zeta*wn / Kv = 3.2
-    Ki = wn^2 / Kv       = 4.0
-
-Install dependencies:
-    pip install opencv-python mediapipe pyserial
-
-You also need the hand landmark model file. Download it once:
-    curl -L -o hand_landmarker.task https://storage.googleapis.com/mediapipe-models/hand_landmarker/hand_landmarker/float16/1/hand_landmarker.task
-Place hand_landmarker.task in the same folder as this script.
-
-Arduino side: pairs with pan_tilt_simple.ino (writes values directly,
-no on-Arduino smoothing - all control logic lives here in Python).
-"""
 
 import cv2
 import mediapipe as mp

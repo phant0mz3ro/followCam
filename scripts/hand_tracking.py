@@ -1,24 +1,3 @@
-"""
-Hand-tracking pan/tilt controller for CONTINUOUS ROTATION servos
---------------------------------------------------------------------
-These servos have no position sense - sending a value away from 90 spins
-them at a speed/direction, not to an angle. So instead of computing a
-target position, this script continuously checks the hand's offset from
-frame center (the "error") and sends a speed command proportional to that
-error, every frame. When the hand is centered, it sends "stop" (90,90).
-The camera itself is the feedback loop, replacing a position sensor.
-
-Install dependencies:
-    pip install opencv-python mediapipe pyserial
-
-You also need the hand landmark model file. Download it once:
-    curl -L -o hand_landmarker.task https://storage.googleapis.com/mediapipe-models/hand_landmarker/hand_landmarker/float16/1/hand_landmarker.task
-Place hand_landmarker.task in the same folder as this script.
-
-Arduino side: pairs with pan_tilt_simple.ino (or any sketch that just
-does panServo.write(value) / tiltServo.write(value) directly from the
-received "pan,tilt\n" line, no smoothing).
-"""
 
 import cv2
 import mediapipe as mp
